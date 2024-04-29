@@ -1,0 +1,56 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.net.URL;
+import javax.swing.ImageIcon;
+
+public class AvengersWorldClock extends JFrame {
+    private JLabel timeLabel;
+    private ImageIcon avengersLogo;
+
+    public AvengersWorldClock() {
+        setTitle("Avengers World Clock");
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Load Avengers logo image
+        avengersLogo = new ImageIcon(getClass().getResource("avengers_logo.png"));
+
+        // Create time label
+        timeLabel = new JLabel();
+        timeLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        updateTime();
+
+        // Add logo and time label to content pane
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(new JLabel(avengersLogo), BorderLayout.CENTER);
+        getContentPane().add(timeLabel, BorderLayout.SOUTH);
+
+        // Update time every second
+        Timer timer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateTime();
+            }
+        });
+        timer.start();
+    }
+
+    private void updateTime() {
+        // Get current time
+        long currentTime = System.currentTimeMillis();
+        String time = String.format("%tT", currentTime);
+
+        // Update time label
+        timeLabel.setText(time);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new AvengersWorldClock().setVisible(true);
+            }
+        });
+    }
+}
+
